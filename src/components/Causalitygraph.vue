@@ -21,4 +21,15 @@ export default {
 </script>
 
 <style>
+.links path {
+  fill: none;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  fill: #777;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
 </style>

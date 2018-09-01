@@ -1,6 +1,5 @@
 <template>
   <div id="matrixplot">
-    <!-- <div id="forcelayout-container"></div> -->
   </div>
 </template>
 

@@ -9,7 +9,6 @@ export default class Matrixplot {
   }
   initScene(file) {
     const matrixData = fetch(file).then(res => res.json())
-    // const layoutData = fetch('../../static/layout.json').then(res => res.json())
     Promise.all([matrixData]).then(dataset => {
       this.renderScene(dataset)})
   }
@@ -18,8 +17,7 @@ export default class Matrixplot {
     // const layoutData = datasets[1]
     const gridNum = matrixData.length,
       data = matrixData.causality,
-      // values = matrixData.matrix,
-      margin = {top: 50, right: 0, bottom: 100, left: 30},
+      margin = {top: 20, right: 0, bottom: 100, left: 5},
       width = window.innerWidth/2,
       height = window.innerHeight,
       matrixWidth = Math.min(width, height*0.8),
@@ -35,8 +33,6 @@ export default class Matrixplot {
     document.getElementById('matrixplot').innerHTML = ''
     //matrixplot
     const svg = d3.select(document.getElementById('matrixplot'))
-      // .attr('width', width)
-      // .attr('height', height)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -61,7 +57,6 @@ export default class Matrixplot {
       .style('text-anchor', 'middle')
       .style('font-size', '0.7em')
       .attr('transform', `translate(${gridSize/2}, -6)`)
-      // .attr('class', (d, i) => {return (i>=29&&i<=53) || (i>=71&&i<=96) ? 'q24' : 'q13'})
 
     //matrixplot chart
     const matrixplotChart = (data) => {
@@ -76,13 +71,13 @@ export default class Matrixplot {
         .attr('class', 'grid')
         .attr('width', gridSize)
         .attr('height', gridSize)
-        .on('mouseover', d => mouseoverGrid(d))
+        .on('mouseover', d => mouseovered(d))
         .on('mouseleave', () => {d3.select('#text-g').remove()})
         .merge(grids)
         .style('fill', d => d.value>=threshold?colorScale(d.value):'white')
     }
     //matrixplot mouseover
-    function mouseoverGrid(gridData) {
+    function mouseovered(gridData) {
       if(gridData.value<threshold) {
         return
       }
@@ -98,22 +93,6 @@ export default class Matrixplot {
         .text(d => `from node${d.src+1} to node${d.dst+1}: ${d.value}`)
         .style('font-size', '0.7em')
     }
-
-
-    // //forcelayout
-    // const container = document.getElementById('forcelayout-container')
-    // container.style.width = `${window.innerWidth/2-50}px`
-    // container.style.height = `${window.innerHeight*0.9}px`
-    // const s = new Sigma.sigma({
-    //   graph: layoutData,
-    //   container: container,
-    //   settings: {
-    //     maxNodeSize: 3,
-    //     maxEdgeSize: 3
-    //   }
-    // })
-    // s.refresh()
-
 
     //slider bar
     const sliderWidth = gridSize*gridNum,
@@ -159,30 +138,6 @@ export default class Matrixplot {
       threshold = selectValue / sliderWidth * (sliderMax-sliderMin)
       valueLabel.text(`current value: ${threshold}`)
       grid.style('fill', d => d.value>=threshold?colorScale(d.value):'white')
-      // //forcelayout
-      // s.graph.edges().forEach(e => {
-      //   const src = e.source,
-      //     dst = e.target
-      //   if(values[src][dst]<threshold && values[dst][src]<threshold) {
-      //     e.hidden = true
-      //     s.graph.nodes()[src].degree -= 1
-      //     s.graph.nodes()[dst].degree -= 1
-      //   }
-      //   else {
-      //     e.hidden = false
-      //     s.graph.nodes()[src].degree += 1
-      //     s.graph.nodes()[dst].degree += 1
-      //   }
-      // })
-      // s.graph.nodes().forEach(n => {
-      //   if(n.degree == 0) {
-      //     n.hidden = true
-      //   }
-      //   else {
-      //     n.hidden = false
-      //   }
-      // })
-      // s.refresh()
     }
 
     matrixplotChart(data)

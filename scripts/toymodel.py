@@ -227,9 +227,24 @@ class ToyModel(object):
             ref = dataset[:]
             ref.pop(i)
             print('src: ', i)
-            results[i] = analyize(data, ref)
-        with open('../static/resultT1.json', 'w') as f:
+            result = analyize(data, ref)
+            # arrange data format
+            result.sort(key=lambda x: x['coef'], reverse=True)
+            data_index = list(range(4))
+            data_index.pop(i)
+            for obj in result:
+                data = obj['data']
+                temp = []
+                for di in data:
+                    temp.append(data_index[di])
+                obj['data'] = temp
+            results[i] = result
+        with open('../static/resultT.json', 'w') as f:
             json.dump(results, f)
+
+    def causality_graph_view(self):
+        with open('../static/resultT.json', 'r') as f:
+            dataset = json.loaf(f)
 
 
 if __name__ == '__main__':

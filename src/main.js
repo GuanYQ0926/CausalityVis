@@ -6,6 +6,8 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
+  Tabs,
+  TabPane,
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -15,6 +17,8 @@ Vue.use(Option)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.config.productionTip = false
 
 
